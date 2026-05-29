@@ -67,6 +67,7 @@ Unified LLM API with provider collections, automatic auth resolution, token and 
 - **Mistral**
 - **Groq**
 - **Cerebras**
+- **SambaNova**
 - **Cloudflare AI Gateway**
 - **Cloudflare Workers AI**
 - **xAI**
@@ -1061,7 +1062,7 @@ Importing an implementation module loads its SDK. The `./api/<id>.lazy` wrappers
 
 ### OpenAI Compatibility Settings
 
-The `openai-completions` API is implemented by many providers with minor differences. By default, the library auto-detects compatibility settings based on `baseUrl` for a small set of known OpenAI-compatible providers (Cerebras, xAI, Chutes, DeepSeek, NVIDIA NIM, Together AI, zAi, OpenCode, Cloudflare Workers AI, etc.). For custom proxies or unknown endpoints, you can override these settings via the `compat` field. For `openai-responses` models, the compat field supports Responses-specific flags.
+The `openai-completions` API is implemented by many providers with minor differences. By default, the library auto-detects compatibility settings based on `baseUrl` for a small set of known OpenAI-compatible providers (Cerebras, xAI, Chutes, DeepSeek, NVIDIA NIM, Together AI, zAi, OpenCode, Cloudflare Workers AI, SambaNova, etc.). For custom proxies or unknown endpoints, you can override these settings via the `compat` field. For `openai-responses` models, the compat field supports Responses-specific flags.
 
 ```typescript
 interface OpenAICompletionsCompat {
@@ -1288,6 +1289,39 @@ Browser compatibility notes:
 - Use a server-side proxy or backend service if you need Bedrock or OAuth-based auth from a web app.
 
 ## Bundling and Tree Shaking
+
+In Node.js environments, you can set environment variables to avoid passing API keys:
+
+| Provider | Environment Variable(s) |
+|----------|------------------------|
+| OpenAI | `OPENAI_API_KEY` |
+| Azure OpenAI | `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_BASE_URL` (e.g. `https://{resource}.openai.azure.com`) or `AZURE_OPENAI_RESOURCE_NAME`. Supports `*.openai.azure.com` and `*.cognitiveservices.azure.com`; root endpoints auto-normalize to `/openai/v1`. Optional: `AZURE_OPENAI_API_VERSION` (default `v1`), `AZURE_OPENAI_DEPLOYMENT_NAME_MAP`. |
+| Anthropic | `ANTHROPIC_API_KEY` or `ANTHROPIC_OAUTH_TOKEN` |
+| DeepSeek | `DEEPSEEK_API_KEY` |
+| Google | `GEMINI_API_KEY` |
+| Vertex AI | `GOOGLE_CLOUD_API_KEY` or `GOOGLE_CLOUD_PROJECT` (or `GCLOUD_PROJECT`) + `GOOGLE_CLOUD_LOCATION` + ADC |
+| Mistral | `MISTRAL_API_KEY` |
+| Groq | `GROQ_API_KEY` |
+| Cerebras | `CEREBRAS_API_KEY` |
+| SambaNova | `SAMBANOVA_API_KEY` |
+| Cloudflare AI Gateway | `CLOUDFLARE_API_KEY` + `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_GATEWAY_ID` |
+| Cloudflare Workers AI | `CLOUDFLARE_API_KEY` + `CLOUDFLARE_ACCOUNT_ID` |
+| xAI | `XAI_API_KEY` |
+| Fireworks | `FIREWORKS_API_KEY` |
+| Together AI | `TOGETHER_API_KEY` |
+| OpenRouter | `OPENROUTER_API_KEY` |
+| Vercel AI Gateway | `AI_GATEWAY_API_KEY` |
+| zAI | `ZAI_API_KEY` |
+| MiniMax | `MINIMAX_API_KEY` |
+| OpenCode Zen / OpenCode Go | `OPENCODE_API_KEY` |
+| Kimi For Coding | `KIMI_API_KEY` |
+| Xiaomi MiMo (API billing) | `XIAOMI_API_KEY` |
+| Xiaomi MiMo Token Plan (China) | `XIAOMI_TOKEN_PLAN_CN_API_KEY` |
+| Xiaomi MiMo Token Plan (Amsterdam) | `XIAOMI_TOKEN_PLAN_AMS_API_KEY` |
+| Xiaomi MiMo Token Plan (Singapore) | `XIAOMI_TOKEN_PLAN_SGP_API_KEY` |
+| GitHub Copilot | `COPILOT_GITHUB_TOKEN` |
+
+When set, the library automatically uses these keys:
 
 For small bundles, import only the providers you need:
 
