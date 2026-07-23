@@ -2425,6 +2425,82 @@ async function generateModels() {
 		});
 	}
 
+	// Add SambaNova cloud models
+	// See: https://docs.sambanova.ai/docs/en/models/sambacloud-models
+	const sambanovaModels = [
+		// Production Models
+		{
+			id: "Meta-Llama-3.3-70B-Instruct",
+			name: "Meta Llama 3.3 70B Instruct",
+			developer: "Meta",
+			contextWindow: 128000,
+			input: ["text"],
+			reasoning: false,
+		},
+		{
+			id: "MiniMax-M2.7",
+			name: "MiniMax M2.7",
+			developer: "MiniMax",
+			contextWindow: 192000,
+			input: ["text"],
+			reasoning: false,
+		},
+		{
+			id: "DeepSeek-V3.1",
+			name: "DeepSeek V3.1",
+			developer: "DeepSeek",
+			contextWindow: 128000,
+			input: ["text"],
+			reasoning: true,
+		},
+		{
+			id: "gpt-oss-120b",
+			name: "OpenAI GPT OSS 120B",
+			developer: "OpenAI",
+			contextWindow: 128000,
+			input: ["text"],
+			reasoning: true,
+		},
+		// Preview Models
+		{
+			id: "DeepSeek-V3.2",
+			name: "DeepSeek V3.2 (Preview)",
+			developer: "DeepSeek",
+			contextWindow: 32000,
+			input: ["text"],
+			reasoning: true,
+		},
+		{
+			id: "gemma-4-31B-it",
+			name: "Google Gemma 4 31B Instruct (Preview)",
+			developer: "Google",
+			contextWindow: 128000,
+			input: ["text", "image"],
+			reasoning: false,
+		},
+	];
+	for (const model of sambanovaModels) {
+		if (!allModels.some(m => m.provider === "sambanova" && m.id === model.id)) {
+			allModels.push({
+				id: model.id,
+				name: model.name,
+				api: "openai-completions",
+				provider: "sambanova",
+				baseUrl: "https://api.sambanovasystems.com/v1",
+				reasoning: model.reasoning,
+				input: model.input,
+				cost: {
+					input: 0,
+					output: 0,
+					cacheRead: 0,
+					cacheWrite: 0,
+				},
+				contextWindow: model.contextWindow,
+				maxTokens: Math.ceil(model.contextWindow * 0.1), // Conservative estimate: 10% of context window
+			});
+		}
+	}
+
 	// Azure Foundry deploys these with larger context windows than OpenAI's own short-tier defaults.
 	// See models-sold-directly-by-azure docs.
 	const AZURE_CONTEXT_WINDOW_OVERRIDES: Record<string, number> = {

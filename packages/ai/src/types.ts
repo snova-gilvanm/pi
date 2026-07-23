@@ -66,6 +66,7 @@ export type KnownProvider =
 	| "cloudflare-ai-gateway"
 	| "qwen-token-plan"
 	| "qwen-token-plan-cn"
+	| "sambanova"
 	| "xiaomi"
 	| "xiaomi-token-plan-cn"
 	| "xiaomi-token-plan-ams"

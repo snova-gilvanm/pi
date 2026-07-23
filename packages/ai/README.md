@@ -72,6 +72,7 @@ Unified LLM API with provider collections, automatic auth resolution, token and 
 - **Cloudflare Workers AI**
 - **xAI**
 - **OpenRouter**
+- **SambaNova**
 - **Vercel AI Gateway**
 - **ZAI Coding Plan (Global)** (with separate China provider)
 - **MiniMax** (with separate China provider)
