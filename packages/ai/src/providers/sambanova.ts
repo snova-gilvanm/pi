@@ -12,7 +12,7 @@ export function sambanovaProvider(): Provider<"openai-completions"> {
 	return createProvider({
 		id: "sambanova",
 		name: "SambaNova",
-		baseUrl: "https://api.sambanovasystems.com/v1",
+		baseUrl: "https://api.sambanova.ai/v1",
 		auth: { apiKey: envApiKeyAuth("SambaNova API key", ["SAMBANOVA_API_KEY"]) },
 		models: Object.values(SAMBANOVA_MODELS),
 		api: openAICompletionsApi(),

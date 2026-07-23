@@ -2486,7 +2486,7 @@ async function generateModels() {
 				name: model.name,
 				api: "openai-completions",
 				provider: "sambanova",
-				baseUrl: "https://api.sambanovasystems.com/v1",
+				baseUrl: "https://api.sambanova.ai/v1",
 				reasoning: model.reasoning,
 				input: model.input,
 				cost: {
